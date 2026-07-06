@@ -131,6 +131,8 @@ simde_vrbitq_u8(simde_uint8x16_t a) {
       a_.m128i = _mm_or_si128(_mm_andnot_si128(mask, _mm_slli_epi16(a_.m128i, 2)), _mm_and_si128(mask, _mm_srli_epi16(a_.m128i, 2)));
       mask = _mm_set1_epi8(0x0F);
       r_.m128i = _mm_or_si128(_mm_andnot_si128(mask, _mm_slli_epi16(a_.m128i, 4)), _mm_and_si128(mask, _mm_srli_epi16(a_.m128i, 4)));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = (__m128i)__lsx_vbitrevi_b(a_.m128i, 0);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       a_.v128 = wasm_v128_bitselect(wasm_u8x16_shr(a_.v128, 1), wasm_i8x16_shl(a_.v128, 1), wasm_i8x16_splat(0x55));
       a_.v128 = wasm_v128_bitselect(wasm_u8x16_shr(a_.v128, 2), wasm_i8x16_shl(a_.v128, 2), wasm_i8x16_splat(0x33));
