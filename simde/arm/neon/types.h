@@ -54,6 +54,10 @@ typedef union {
     fixed_vint8m1_t sv64;
   #endif
 
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v16i8 lsx64;
+  #endif
+
 } simde_int8x8_private;
 
 typedef union {
@@ -65,6 +69,10 @@ typedef union {
 
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vint16m1_t sv64;
+  #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v8i16 lsx64;
   #endif
 
 } simde_int16x4_private;
@@ -80,6 +88,10 @@ typedef union {
     fixed_vint32m1_t sv64;
   #endif
 
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v4i32 lsx64;
+  #endif
+
 } simde_int32x2_private;
 
 typedef union {
@@ -91,6 +103,10 @@ typedef union {
 
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vint64m1_t sv64;
+  #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v2i64 lsx64;
   #endif
 
 } simde_int64x1_private;
@@ -106,6 +122,10 @@ typedef union {
     fixed_vuint8m1_t sv64;
   #endif
 
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v16u8 lsx64;
+  #endif
+
 } simde_uint8x8_private;
 
 typedef union {
@@ -117,6 +137,10 @@ typedef union {
 
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vuint16m1_t sv64;
+  #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v8u16 lsx64;
   #endif
 
 } simde_uint16x4_private;
@@ -132,6 +156,10 @@ typedef union {
     fixed_vuint32m1_t sv64;
   #endif
 
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v4u32 lsx64;
+  #endif
+
 } simde_uint32x2_private;
 
 typedef union {
@@ -143,6 +171,10 @@ typedef union {
 
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vuint64m1_t sv64;
+  #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v2u64 lsx64;
   #endif
 
 } simde_uint64x1_private;
@@ -188,12 +220,20 @@ typedef union {
     fixed_vfloat64m1_t sv64;
   #endif
 
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v2f64 lsx64;
+  #endif
+
 } simde_float64x1_private;
 
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(simde_poly8, values, 8);
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vuint8m1_t sv64;
+  #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v16u8 lsx64;
   #endif
 } simde_poly8x8_private;
 
@@ -202,6 +242,10 @@ typedef union {
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vuint16m1_t sv64;
   #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v8u16 lsx64;
+  #endif
 } simde_poly16x4_private;
 
 typedef union {
@@ -209,12 +253,16 @@ typedef union {
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vuint64m1_t sv64;
   #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v2u64 lsx64;
+  #endif
 } simde_poly64x1_private;
 
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(int8_t, values, 16);
 
-  #if defined(SIMDE_X86_SSE2_NATIVE)
+  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128i m128i;
   #endif
 
@@ -235,7 +283,7 @@ typedef union {
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(int16_t, values, 16);
 
-  #if defined(SIMDE_X86_SSE2_NATIVE)
+  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128i m128i;
   #endif
 
@@ -256,7 +304,7 @@ typedef union {
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(int32_t, values, 16);
 
-  #if defined(SIMDE_X86_SSE2_NATIVE)
+  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128i m128i;
   #endif
 
@@ -281,7 +329,7 @@ typedef union {
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(int64_t, values, 16);
 
-  #if defined(SIMDE_X86_SSE2_NATIVE)
+  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128i m128i;
   #endif
 
@@ -302,7 +350,7 @@ typedef union {
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(uint8_t, values, 16);
 
-  #if defined(SIMDE_X86_SSE2_NATIVE)
+  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128i m128i;
   #endif
 
@@ -323,7 +371,7 @@ typedef union {
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(uint16_t, values, 16);
 
-  #if defined(SIMDE_X86_SSE2_NATIVE)
+  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128i m128i;
   #endif
 
@@ -344,7 +392,7 @@ typedef union {
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(uint32_t, values, 16);
 
-  #if defined(SIMDE_X86_SSE2_NATIVE)
+  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128i m128i;
   #endif
 
@@ -365,7 +413,7 @@ typedef union {
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(uint64_t, values, 16);
 
-  #if defined(SIMDE_X86_SSE2_NATIVE)
+  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128i m128i;
   #endif
 
@@ -390,7 +438,7 @@ typedef union {
     simde_float16 values[8];
   #endif
 
-  #if defined(SIMDE_X86_SSE_NATIVE)
+  #if defined(SIMDE_X86_SSE_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128 m128;
   #endif
 
@@ -415,7 +463,7 @@ typedef union {
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(simde_float32, values, 16);
 
-  #if defined(SIMDE_X86_SSE_NATIVE)
+  #if defined(SIMDE_X86_SSE_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128 m128;
   #endif
 
@@ -436,7 +484,7 @@ typedef union {
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(simde_float64, values, 16);
 
-  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_X86_SVML_NATIVE)
+  #if defined(SIMDE_X86_SSE2_NATIVE) || defined(SIMDE_X86_SVML_NATIVE) || defined(SIMDE_LOONGARCH_LSX_NATIVE)
     __m128d m128d;
   #endif
 
@@ -459,6 +507,10 @@ typedef union {
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vuint8m1_t sv128;
   #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v16u8 lsx64;
+  #endif
 } simde_poly8x16_private;
 
 typedef union {
@@ -466,12 +518,20 @@ typedef union {
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vuint16m1_t sv128;
   #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v8u16 lsx64;
+  #endif
 } simde_poly16x8_private;
 
 typedef union {
   SIMDE_ARM_NEON_DECLARE_VECTOR(simde_poly64, values, 16);
   #if defined(SIMDE_RISCV_V_NATIVE)
     fixed_vuint64m1_t sv128;
+  #endif
+
+  #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    v2u64 lsx128;
   #endif
 } simde_poly64x2_private;
 
@@ -799,6 +859,42 @@ typedef union {
   typedef fixed_vuint64m1_t  simde_uint64x2_t;
   typedef fixed_vfloat32m1_t simde_float32x4_t;
   typedef fixed_vfloat64m1_t simde_float64x2_t;
+
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_F16
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_F32
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_F64
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_POLY_128_BIT
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_POLY_64_BIT
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_POLY
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_F64X1XN
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_F64X2XN
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_POLY_VXN
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_VXN
+  #define SIMDE_ARM_NEON_NEED_PORTABLE_BF16
+
+#elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+
+  typedef v16i8  simde_int8x8_t;
+  typedef v8i16  simde_int16x4_t;
+  typedef v4i32  simde_int32x2_t;
+  typedef v2i64  simde_int64x1_t;
+  typedef v16u8  simde_uint8x8_t;
+  typedef v8u16  simde_uint16x4_t;
+  typedef v4u32  simde_uint32x2_t;
+  typedef v2u64  simde_uint64x1_t;
+  typedef v4f32  simde_float32x2_t;
+  typedef v2f64  simde_float64x1_t;
+
+  typedef v16i8  simde_int8x16_t;
+  typedef v8i16  simde_int16x8_t;
+  typedef v4i32  simde_int32x4_t;
+  typedef v2i64  simde_int64x2_t;
+  typedef v16u8  simde_uint8x16_t;
+  typedef v8u16  simde_uint16x8_t;
+  typedef v4u32  simde_uint32x4_t;
+  typedef v2u64  simde_uint64x2_t;
+  typedef v4f32  simde_float32x4_t;
+  typedef v2f64  simde_float64x2_t;
 
   #define SIMDE_ARM_NEON_NEED_PORTABLE_F16
   #define SIMDE_ARM_NEON_NEED_PORTABLE_F32
@@ -1493,6 +1589,76 @@ typedef union {
   SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint64x2_from_v128,   simde_uint64x2_t, v128_t)
   SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float32x4_from_v128, simde_float32x4_t, v128_t)
   SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float64x2_from_v128, simde_float64x2_t, v128_t)
+#endif
+
+#if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int8x8_to_lsx,         v16i8,    simde_int8x8_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int16x4_to_lsx,        v8i16,   simde_int16x4_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int32x2_to_lsx,        v4i32,   simde_int32x2_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int64x1_to_lsx,        v2i64,   simde_int64x1_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint8x8_to_lsx,        v16u8,   simde_uint8x8_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint16x4_to_lsx,       v8u16,  simde_uint16x4_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint32x2_to_lsx,       v4u32,  simde_uint32x2_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint64x1_to_lsx,       v2u64,  simde_uint64x1_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float32x2_to_lsx,      v4f32, simde_float32x2_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float64x1_to_lsx,      v2f64, simde_float64x1_t)
+
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float16x4_to_lsx,      v8u16, simde_float16x4_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly8x8_to_lsx,        v16u8,   simde_poly8x8_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly16x4_to_lsx,       v8u16,  simde_poly16x4_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly64x1_to_lsx,       v2u64,  simde_poly64x1_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_bfloat16x4_to_lsx,     v8u16, simde_bfloat16x4_t)
+
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int8x16_to_lsx,        v16i8,   simde_int8x16_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int16x8_to_lsx,        v8i16,   simde_int16x8_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int32x4_to_lsx,        v4i32,   simde_int32x4_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int64x2_to_lsx,        v2i64,   simde_int64x2_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint8x16_to_lsx,       v16u8,  simde_uint8x16_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint16x8_to_lsx,       v8u16,  simde_uint16x8_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint32x4_to_lsx,       v4u32,  simde_uint32x4_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint64x2_to_lsx,       v2u64,  simde_uint64x2_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float32x4_to_lsx,      v4f32, simde_float32x4_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float64x2_to_lsx,      v2f64, simde_float64x2_t)
+
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float16x8_to_lsx,      v8u16, simde_float16x8_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly8x16_to_lsx,       v16u8,  simde_poly8x16_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly16x8_to_lsx,       v8u16,  simde_poly16x8_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly64x2_to_lsx,       v2u64,  simde_poly64x2_t)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_bfloat16x8_to_lsx,     v8u16, simde_bfloat16x8_t)
+
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int8x8_from_lsx,       simde_int8x8_t,         v16i8)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int16x4_from_lsx,     simde_int16x4_t,         v8i16)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int32x2_from_lsx,     simde_int32x2_t,         v4i32)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int64x1_from_lsx,     simde_int64x1_t,         v2i64)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint8x8_from_lsx,     simde_uint8x8_t,         v16u8)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint16x4_from_lsx,   simde_uint16x4_t,         v8u16)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint32x2_from_lsx,   simde_uint32x2_t,         v4u32)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint64x1_from_lsx,   simde_uint64x1_t,         v2u64)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float32x2_from_lsx, simde_float32x2_t,         v4f32)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float64x1_from_lsx, simde_float64x1_t,         v2f64)
+
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float16x4_from_lsx, simde_float16x4_t,         v8u16)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly8x8_from_lsx,     simde_poly8x8_t,         v16u8)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly16x4_from_lsx,   simde_poly16x4_t,         v8u16)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly64x1_from_lsx,   simde_poly64x1_t,         v2u64)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_bfloat16x4_from_lsx, simde_bfloat16x4_t,         v8u16)
+
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int8x16_from_lsx,     simde_int8x16_t,         v16i8)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int16x8_from_lsx,     simde_int16x8_t,         v8i16)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int32x4_from_lsx,     simde_int32x4_t,         v4i32)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_int64x2_from_lsx,     simde_int64x2_t,         v2i64)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint8x16_from_lsx,   simde_uint8x16_t,         v16u8)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint16x8_from_lsx,   simde_uint16x8_t,         v8u16)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint32x4_from_lsx,   simde_uint32x4_t,         v4u32)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_uint64x2_from_lsx,   simde_uint64x2_t,         v2u64)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float32x4_from_lsx, simde_float32x4_t,         v4f32)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float64x2_from_lsx, simde_float64x2_t,         v2f64)
+
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_float16x8_from_lsx, simde_float16x8_t,         v8u16)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly8x16_from_lsx,   simde_poly8x16_t,         v16u8)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly16x8_from_lsx,   simde_poly16x8_t,         v8u16)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_poly64x2_from_lsx,   simde_poly64x2_t,         v2u64)
+  SIMDE_DEFINE_CONVERSION_FUNCTION_(simde_bfloat16x8_from_lsx, simde_bfloat16x8_t,         v8u16)
 #endif
 
 #define SIMDE_ARM_NEON_TYPE_DEFINE_CONVERSIONS_(T) \

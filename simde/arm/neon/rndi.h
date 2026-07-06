@@ -25,6 +25,7 @@
  *   2023      Yi-Yen Chung <eric681@andestech.com> (Copyright owned by Andes Technology)
  */
 
+#include <lsxintrin.h>
 #if !defined(SIMDE_ARM_NEON_RNDI_H)
 #define SIMDE_ARM_NEON_RNDI_H
 
@@ -152,6 +153,8 @@ simde_vrndiq_f32(simde_float32x4_t a) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128 = _mm_round_ps(a_.m128, _MM_FROUND_CUR_DIRECTION);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = __lsx_vfrintrne_s(a_.m128);
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
@@ -179,6 +182,8 @@ simde_vrndiq_f64(simde_float64x2_t a) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128d = _mm_round_pd(a_.m128d, _MM_FROUND_CUR_DIRECTION);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128d = __lsx_vfrintrne_d(a_.m128d);
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {

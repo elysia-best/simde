@@ -324,6 +324,9 @@ simde_vabsq_f32(simde_float32x4_t a) {
       uint32_t u32_ = UINT32_C(0x7FFFFFFF);
       simde_memcpy(&mask_, &u32_, sizeof(u32_));
       r_.m128 = _mm_and_ps(_mm_set1_ps(mask_), a_.m128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      __m128i mask_ = __lsx_vreplgr2vr_w(0x7FFFFFFF);
+      r_.m128 = (__m128) __lsx_vand_v((__m128i) a_.m128, mask_);
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
@@ -356,6 +359,9 @@ simde_vabsq_f64(simde_float64x2_t a) {
       uint64_t u64_ = UINT64_C(0x7FFFFFFFFFFFFFFF);
       simde_memcpy(&mask_, &u64_, sizeof(u64_));
       r_.m128d = _mm_and_pd(_mm_set1_pd(mask_), a_.m128d);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      __m128i mask_ = __lsx_vreplgr2vr_d(0x7FFFFFFFFFFFFFFFLL);
+      r_.m128d = (__m128d) __lsx_vand_v((__m128i) a_.m128d, mask_);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vfabs_v_f64m1(a_.sv128 , 2);
     #else
@@ -389,6 +395,8 @@ simde_vabsq_s8(simde_int8x16_t a) {
       r_.m128i = _mm_abs_epi8(a_.m128i);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_min_epu8(a_.m128i, _mm_sub_epi8(_mm_setzero_si128(), a_.m128i));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmin_bu(a_.m128i, __lsx_vneg_b(a_.m128i));
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i8x16_abs(a_.v128);
     #elif defined(SIMDE_RISCV_V_NATIVE)
@@ -427,6 +435,8 @@ simde_vabsq_s16(simde_int16x8_t a) {
       r_.m128i = _mm_abs_epi16(a_.m128i);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_max_epi16(a_.m128i, _mm_sub_epi16(_mm_setzero_si128(), a_.m128i));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmax_h(a_.m128i, __lsx_vneg_h(a_.m128i));
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i16x8_abs(a_.v128);
     #elif defined(SIMDE_RISCV_V_NATIVE)
@@ -466,6 +476,8 @@ simde_vabsq_s32(simde_int32x4_t a) {
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       const __m128i m = _mm_cmpgt_epi32(_mm_setzero_si128(), a_.m128i);
       r_.m128i = _mm_sub_epi32(_mm_xor_si128(a_.m128i, m), m);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmax_w(a_.m128i, __lsx_vneg_w(a_.m128i));
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i32x4_abs(a_.v128);
     #elif defined(SIMDE_RISCV_V_NATIVE)
@@ -508,6 +520,8 @@ simde_vabsq_s64(simde_int64x2_t a) {
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       const __m128i m = _mm_srai_epi32(_mm_shuffle_epi32(a_.m128i, 0xF5), 31);
       r_.m128i = _mm_sub_epi64(_mm_xor_si128(a_.m128i, m), m);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmax_d(a_.m128i, __lsx_vneg_d(a_.m128i));
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i64x2_abs(a_.v128);
     #elif defined(SIMDE_RISCV_V_NATIVE)
