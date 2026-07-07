@@ -213,11 +213,14 @@ simde_vld1q_dup_f32(simde_float32 const * ptr) {
     return vld1q_dup_f32(ptr);
   #elif \
       defined(SIMDE_X86_SSE_NATIVE) || \
+      defined(SIMDE_LOONGARCH_LSX_NATIVE) || \
       defined(SIMDE_WASM_SIMD128_NATIVE)
     simde_float32x4_private r_;
 
     #if defined(SIMDE_X86_SSE_NATIVE)
       r_.m128 = _mm_load_ps1(ptr);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = (__m128) __lsx_vldrepl_w(ptr, 0);
     #else
       r_.v128 = wasm_v128_load32_splat(ptr);
     #endif

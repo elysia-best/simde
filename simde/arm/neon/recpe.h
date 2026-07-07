@@ -190,6 +190,8 @@ simde_vrecpeq_f64(simde_float64x2_t a) {
 
     #if defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vfrec7_v_f64m1(a_.sv128 , 2);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128d = __lsx_vfrecipe_d(a_.m128d);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_SCALAR)
       r_.values = 1.0 / a_.values;
     #else
@@ -222,6 +224,8 @@ simde_vrecpeq_f32(simde_float32x4_t a) {
 
     #if defined(SIMDE_X86_SSE_NATIVE)
       r_.m128 = _mm_rcp_ps(a_.m128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = __lsx_vfrecipe_s(a_.m128);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vfrec7_v_f32m1(a_.sv128 , 4);
     #elif defined(SIMDE_IEEE754_STORAGE)

@@ -222,6 +222,8 @@ simde_vrev64q_s8(simde_int8x16_t a) {
     #if defined(SIMDE_X86_SSSE3_NATIVE)
       r_.m128i = _mm_shuffle_epi8(a_.m128i, _mm_set_epi8(8, 9, 10, 11, 12, 13, 14, 15,
                                                          0, 1,  2,  3,  4,  5,  6,  7));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vshuf4i_b(a_.m128i, 0x1b);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i8x16_shuffle(a_.v128, a_.v128, 7, 6, 5, 4, 3, 2, 1, 0, 15, 14, 13, 12, 11, 10, 9, 8);
     #elif defined(SIMDE_RISCV_V_NATIVE)
@@ -264,6 +266,8 @@ simde_vrev64q_s16(simde_int16x8_t a) {
       r_.m128i = _mm_shufflehi_epi16(_mm_shufflelo_epi16(a_.m128i,
                                                         (0 << 6) | (1 << 4) | (2 << 2) | (3 << 0)),
                                                         (0 << 6) | (1 << 4) | (2 << 2) | (3 << 0));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vshuf4i_h(a_.m128i, 0x1b);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i8x16_shuffle(a_.v128, a_.v128, 6, 7, 4, 5, 2, 3, 0, 1, 14, 15, 12, 13, 10, 11, 8, 9);
     #elif defined(SIMDE_RISCV_V_NATIVE)
@@ -301,6 +305,8 @@ simde_vrev64q_s32(simde_int32x4_t a) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_shuffle_epi32(a_.m128i, (2 << 6) | (3 << 4) | (0 << 2) | (1 << 0));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vshuf4i_w(a_.m128i, 0x4e);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i8x16_shuffle(a_.v128, a_.v128, 4, 5, 6, 7, 0, 1, 2, 3, 12, 13, 14, 15, 8, 9, 10, 11);
     #elif defined(SIMDE_RISCV_V_NATIVE)

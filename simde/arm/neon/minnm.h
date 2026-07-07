@@ -214,6 +214,8 @@ simde_vminnmq_f32(simde_float32x4_t a, simde_float32x4_t b) {
       #else
         r_.m128 = _mm_min_ps(a_.m128, b_.m128);
       #endif
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE) && defined(SIMDE_FAST_NANS)
+      r_.m128 = __lsx_vfmin_s(a_.m128, b_.m128);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE) && defined(SIMDE_FAST_NANS)
       r_.v128 = wasm_f32x4_min(a_.v128, b_.v128);
     #else
@@ -268,6 +270,8 @@ simde_vminnmq_f64(simde_float64x2_t a, simde_float64x2_t b) {
       #else
         r_.m128d = _mm_min_pd(a_.m128d, b_.m128d);
       #endif
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE) && defined(SIMDE_FAST_NANS)
+      r_.m128d = __lsx_vfmin_d(a_.m128d, b_.m128d);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE) && defined(SIMDE_FAST_NANS)
       r_.v128 = wasm_f64x2_min(a_.v128, b_.v128);
     #else

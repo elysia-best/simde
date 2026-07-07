@@ -235,6 +235,8 @@ simde_vrsqrte_f32(simde_float32x2_t a) {
           r_.values[i] = x;
         #endif
       }
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = __lsx_vfrsqrte_s(a_.m128);
     #elif defined(simde_math_sqrtf)
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.f32) / sizeof(r_.f32[0])) ; i++) {

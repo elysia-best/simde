@@ -61,6 +61,15 @@ simde_vtbl1_u8(simde_uint8x8_t a, simde_uint8x8_t b) {
 
     #if defined(SIMDE_X86_SSSE3_NATIVE) && defined(SIMDE_X86_MMX_NATIVE)
       r_.m64 = _mm_shuffle_pi8(a_.m64, _mm_or_si64(b_.m64, _mm_cmpgt_pi8(b_.m64, _mm_set1_pi8(7))));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      __m128i idx128 = (__m128i) b_.lsx64;
+      __m128i mask = __lsx_vslt_bu(__lsx_vreplgr2vr_b(7), idx128);
+      idx128 = __lsx_vor_v(idx128, mask);
+      __m128i a128 = simde_uint8x16_to_private(simde_vcombine_u8(a, a)).m128i;
+      __m128i res128 = __lsx_vshuf_b(a128, a128, idx128);
+      int64_t res_scalar = __lsx_vpickve2gr_d(res128, 0);
+      simde_memcpy(&r_.values, &res_scalar, 8);
+      return simde_uint8x8_from_private(r_);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       vbool8_t mask = __riscv_vmsgeu_vx_u8m1_b8 (b_.sv64, 8, 8);
       r_.sv64 = __riscv_vrgather_vv_u8m1(a_.sv64 , b_.sv64 , 8);
@@ -112,6 +121,15 @@ simde_vtbl2_u8(simde_uint8x8x2_t a, simde_uint8x8_t b) {
       __m128i b128 = _mm_set1_epi64(b_.m64);
       __m128i r128 = _mm_shuffle_epi8(a128, _mm_or_si128(b128, _mm_cmpgt_epi8(b128, _mm_set1_epi8(15))));
       r_.m64 = _mm_movepi64_pi64(r128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      __m128i idx128 = (__m128i) b_.lsx64;
+      __m128i mask = __lsx_vslt_bu(__lsx_vreplgr2vr_b(15), idx128);
+      idx128 = __lsx_vor_v(idx128, mask);
+      __m128i a128 = simde_uint8x16_to_private(simde_vcombine_u8(a.val[0], a.val[1])).m128i;
+      __m128i res128 = __lsx_vshuf_b(a128, a128, idx128);
+      int64_t res_scalar = __lsx_vpickve2gr_d(res128, 0);
+      simde_memcpy(&r_.values, &res_scalar, 8);
+      return simde_uint8x8_from_private(r_);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       vuint8m1_t t_combine = __riscv_vslideup_vx_u8m1(a_[0].sv64 , a_[1].sv64 , 8 , 16);
       vbool8_t mask = __riscv_vmsgeu_vx_u8m1_b8 (b_.sv64 , 16 , 8);
@@ -166,6 +184,21 @@ simde_vtbl3_u8(simde_uint8x8x3_t a, simde_uint8x8_t b) {
       __m128i r128_2  = _mm_shuffle_epi8(_mm_set1_epi64(a_[2].m64), b128);
       __m128i r128 = _mm_blendv_epi8(r128_01, r128_2, _mm_slli_epi32(b128, 3));
       r_.m64 = _mm_movepi64_pi64(r128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      __m128i idx128 = (__m128i) b_.lsx64;
+      __m128i mask1 = __lsx_vslt_bu(__lsx_vreplgr2vr_b(15), idx128);
+      __m128i idx1 = __lsx_vor_v(idx128, mask1);
+      __m128i a01 = simde_uint8x16_to_private(simde_vcombine_u8(a.val[0], a.val[1])).m128i;
+      __m128i res1 = __lsx_vshuf_b(a01, a01, idx1);
+      __m128i idx_sub = __lsx_vsub_b(idx128, __lsx_vreplgr2vr_b(16));
+      __m128i mask2 = __lsx_vslt_bu(__lsx_vreplgr2vr_b(23), idx128);
+      __m128i idx2 = __lsx_vor_v(idx_sub, mask2);
+      __m128i a2 = simde_uint8x16_to_private(simde_vcombine_u8(a.val[2], a.val[2])).m128i;
+      __m128i res2 = __lsx_vshuf_b(a2, a2, idx2);
+      __m128i res128 = __lsx_vor_v(res1, res2);
+      int64_t res_scalar = __lsx_vpickve2gr_d(res128, 0);
+      simde_memcpy(&r_.values, &res_scalar, 8);
+      return simde_uint8x8_from_private(r_);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       vuint8m2_t t1 = __riscv_vlmul_ext_v_u8m1_u8m2 (a_[0].sv64);
       vuint8m2_t t2 = __riscv_vlmul_ext_v_u8m1_u8m2 (a_[1].sv64);
@@ -225,6 +258,16 @@ simde_vtbl4_u8(simde_uint8x8x4_t a, simde_uint8x8_t b) {
       __m128i r128_23 = _mm_shuffle_epi8(_mm_set_epi64(a_[3].m64, a_[2].m64), b128);
       __m128i r128 = _mm_blendv_epi8(r128_01, r128_23, _mm_slli_epi32(b128, 3));
       r_.m64 = _mm_movepi64_pi64(r128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      __m128i idx128 = (__m128i) b_.lsx64;
+      __m128i mask = __lsx_vslt_bu(__lsx_vreplgr2vr_b(31), idx128);
+      idx128 = __lsx_vor_v(idx128, mask);
+      __m128i a01 = simde_uint8x16_to_private(simde_vcombine_u8(a.val[0], a.val[1])).m128i;
+      __m128i a23 = simde_uint8x16_to_private(simde_vcombine_u8(a.val[2], a.val[3])).m128i;
+      __m128i res128 = __lsx_vshuf_b(a01, a23, idx128);
+      int64_t res_scalar = __lsx_vpickve2gr_d(res128, 0);
+      simde_memcpy(&r_.values, &res_scalar, 8);
+      return simde_uint8x8_from_private(r_);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       vuint8m2_t t1 = __riscv_vlmul_ext_v_u8m1_u8m2 (a_[0].sv64);
       vuint8m2_t t2 = __riscv_vlmul_ext_v_u8m1_u8m2 (a_[1].sv64);

@@ -325,6 +325,8 @@ simde_vshlq_n_s8 (const simde_int8x16_t a, const int n)
     r_.m128i = _mm_gf2p8affine_epi64_epi8(a_.m128i, _mm_set1_epi64x(INT64_C(0x0102040810204080) >> (n * 8)), 0);
   #elif defined(SIMDE_X86_SSE2_NATIVE)
     r_.m128i = _mm_andnot_si128(_mm_set1_epi8(HEDLEY_STATIC_CAST(int8_t, (1 << n) - 1)), _mm_slli_epi64(a_.m128i, n));
+  #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    r_.m128i = __lsx_vsll_b(a_.m128i, __lsx_vreplgr2vr_b(n));
   #elif defined(SIMDE_WASM_SIMD128_NATIVE)
     r_.v128 = wasm_i8x16_shl(a_.v128, HEDLEY_STATIC_CAST(uint32_t, n));
   #elif defined(SIMDE_RISCV_V_NATIVE)
@@ -360,6 +362,8 @@ simde_vshlq_n_s16 (const simde_int16x8_t a, const int n)
 
   #if defined(SIMDE_X86_SSE2_NATIVE)
     r_.m128i = _mm_slli_epi16(a_.m128i, (n));
+  #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    r_.m128i = __lsx_vsll_h(a_.m128i, __lsx_vreplgr2vr_h(n));
   #elif defined(SIMDE_WASM_SIMD128_NATIVE)
     r_.v128 = wasm_i16x8_shl(a_.v128, HEDLEY_STATIC_CAST(uint32_t, n));
   #elif defined(SIMDE_RISCV_V_NATIVE)

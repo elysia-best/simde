@@ -505,7 +505,9 @@ simde_vqaddq_s32(simde_int32x4_t a, simde_int32x4_t b) {
       a_ = simde_int32x4_to_private(a),
       b_ = simde_int32x4_to_private(b);
 
-    #if defined(SIMDE_X86_SSE2_NATIVE)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsadd_w(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_X86_SSE2_NATIVE)
       /* https://stackoverflow.com/a/56544654/501126 */
       const __m128i int_max = _mm_set1_epi32(INT32_MAX);
 
@@ -582,7 +584,9 @@ simde_vqaddq_s64(simde_int64x2_t a, simde_int64x2_t b) {
       a_ = simde_int64x2_to_private(a),
       b_ = simde_int64x2_to_private(b);
 
-    #if defined(SIMDE_X86_SSE4_1_NATIVE)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsadd_d(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_X86_SSE4_1_NATIVE)
       /* https://stackoverflow.com/a/56544654/501126 */
       const __m128i int_max = _mm_set1_epi64x(INT64_MAX);
 
@@ -730,7 +734,9 @@ simde_vqaddq_u32(simde_uint32x4_t a, simde_uint32x4_t b) {
       a_ = simde_uint32x4_to_private(a),
       b_ = simde_uint32x4_to_private(b);
 
-    #if defined(SIMDE_X86_SSE4_1_NATIVE)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsadd_wu(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_X86_SSE4_1_NATIVE)
       #if defined(__AVX512VL__)
         __m128i notb = _mm_ternarylogic_epi32(b_.m128i, b_.m128i, b_.m128i, 0x0f);
       #else

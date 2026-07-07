@@ -493,6 +493,8 @@ simde_vshrq_n_s64 (const simde_int64x2_t a, const int n)
 
   #if defined(SIMDE_WASM_SIMD128_NATIVE)
     r_.v128 = wasm_i64x2_shr(a_.v128, ((n) == 64) ? 63 : HEDLEY_STATIC_CAST(uint32_t, n));
+  #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    r_.m128i = __lsx_vsra_d(a_.m128i, __lsx_vreplgr2vr_d((n == 64) ? 63 : n));
   #elif defined(SIMDE_RISCV_V_NATIVE)
     int32_t n_ = (n == 64) ? 63 : n;
     r_.sv128 =  __riscv_vsra_vx_i64m1 (a_.sv128, n_, 2);
@@ -657,6 +659,8 @@ simde_vshrq_n_u64 (const simde_uint64x2_t a, const int n)
 
   #if defined(SIMDE_X86_SSE2_NATIVE)
     r_.m128i = _mm_srli_epi64(a_.m128i, n);
+  #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    r_.m128i = ((n) == 64) ? __lsx_vldi(0) : __lsx_vsrl_d(a_.m128i, __lsx_vreplgr2vr_d(n));
   #elif defined(SIMDE_WASM_SIMD128_NATIVE)
     r_.v128 = (((n) == 64) ? wasm_i64x2_splat(0) : wasm_u64x2_shr(a_.v128, HEDLEY_STATIC_CAST(uint32_t, n)));
   #else

@@ -180,6 +180,8 @@ simde_vrndnq_f32(simde_float32x4_t a) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128 = _mm_round_ps(a_.m128, _MM_FROUND_TO_NEAREST_INT);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = __lsx_vfrintrne_s(a_.m128);
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
@@ -207,6 +209,8 @@ simde_vrndnq_f64(simde_float64x2_t a) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128d = _mm_round_pd(a_.m128d, _MM_FROUND_TO_NEAREST_INT);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128d = __lsx_vfrintrne_d(a_.m128d);
     #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {

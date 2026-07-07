@@ -457,6 +457,8 @@ simde_vdupq_n_s8(int8_t value) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_set1_epi8(value);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vreplgr2vr_b(value);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i8x16_splat(value);
     #elif defined(SIMDE_RISCV_V_NATIVE)

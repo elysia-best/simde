@@ -406,6 +406,8 @@ simde_vmulq_f32(simde_float32x4_t a, simde_float32x4_t b) {
 
     #if defined(SIMDE_X86_SSE_NATIVE)
       r_.m128 = _mm_mul_ps(a_.m128, b_.m128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = __lsx_vfmul_s(a_.m128, b_.m128);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_f32x4_mul(a_.v128, b_.v128);
     #elif defined(SIMDE_RISCV_V_NATIVE)
@@ -440,6 +442,8 @@ simde_vmulq_f64(simde_float64x2_t a, simde_float64x2_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128d = _mm_mul_pd(a_.m128d, b_.m128d);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128d = __lsx_vfmul_d(a_.m128d, b_.m128d);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_f64x2_mul(a_.v128, b_.v128);
     #elif defined(SIMDE_RISCV_V_NATIVE)
@@ -495,6 +499,8 @@ simde_vmulq_s8(simde_int8x16_t a, simde_int8x16_t b) {
             )
           #endif
         );
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmul_b(a_.m128i, b_.m128i);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vmul_vv_i8m1(a_.sv128, b_.sv128, 16);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -527,6 +533,8 @@ simde_vmulq_s16(simde_int16x8_t a, simde_int16x8_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_mullo_epi16(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmul_h(a_.m128i, b_.m128i);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vmul_vv_i16m1(a_.sv128, b_.sv128, 8);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -559,6 +567,8 @@ simde_vmulq_s32(simde_int32x4_t a, simde_int32x4_t b) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i32x4_mul(a_.v128, b_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmul_w(a_.m128i, b_.m128i);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vmul_vv_i32m1(a_.sv128, b_.sv128, 4);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -590,6 +600,8 @@ simde_x_vmulq_s64(simde_int64x2_t a, simde_int64x2_t b) {
     r_.v128 = wasm_i64x2_mul(a_.v128, b_.v128);
   #elif defined(SIMDE_X86_AVX512VL_NATIVE) && defined(SIMDE_X86_AVX512DQ_NATIVE)
     r_.m128i = _mm_mullo_epi64(a_.m128i, b_.m128i);
+  #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    r_.m128i = __lsx_vmul_d(a_.m128i, b_.m128i);
   #elif defined(SIMDE_RISCV_V_NATIVE)
     r_.sv128 = __riscv_vmul_vv_i64m1(a_.sv128, b_.sv128, 2);
   #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)

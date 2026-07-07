@@ -487,7 +487,9 @@ simde_vqsubq_s32(simde_int32x4_t a, simde_int32x4_t b) {
       a_ = simde_int32x4_to_private(a),
       b_ = simde_int32x4_to_private(b);
 
-    #if defined(SIMDE_X86_SSE2_NATIVE)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vssub_w(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_X86_SSE2_NATIVE)
       const __m128i diff_sat = _mm_xor_si128(_mm_set1_epi32(INT32_MAX), _mm_cmpgt_epi32(b_.m128i, a_.m128i));
       const __m128i diff = _mm_sub_epi32(a_.m128i, b_.m128i);
 
@@ -538,7 +540,9 @@ simde_vqsubq_s64(simde_int64x2_t a, simde_int64x2_t b) {
       a_ = simde_int64x2_to_private(a),
       b_ = simde_int64x2_to_private(b);
 
-    #if defined(SIMDE_RISCV_V_NATIVE)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vssub_d(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vssub_vv_i64m1(a_.sv128 , b_.sv128 , 2);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_SCALAR)
       const __typeof__(r_.values) diff_sat = HEDLEY_REINTERPRET_CAST(__typeof__(r_.values), (b_.values > a_.values) ^ INT64_MAX);
@@ -652,7 +656,9 @@ simde_vqsubq_u32(simde_uint32x4_t a, simde_uint32x4_t b) {
       a_ = simde_uint32x4_to_private(a),
       b_ = simde_uint32x4_to_private(b);
 
-    #if defined(SIMDE_X86_SSE2_NATIVE)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vssub_wu(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_X86_SSE2_NATIVE)
       const __m128i i32_min = _mm_set1_epi32(INT32_MIN);
       const __m128i difference = _mm_sub_epi32(a_.m128i, b_.m128i);
       r_.m128i =
@@ -700,7 +706,9 @@ simde_vqsubq_u64(simde_uint64x2_t a, simde_uint64x2_t b) {
       a_ = simde_uint64x2_to_private(a),
       b_ = simde_uint64x2_to_private(b);
 
-    #if defined(SIMDE_RISCV_V_NATIVE)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vssub_du(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vssubu_vv_u64m1(a_.sv128 , b_.sv128 , 2);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_SCALAR)
       r_.values  = a_.values - b_.values;

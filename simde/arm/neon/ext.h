@@ -635,6 +635,8 @@ simde_vextq_s8(simde_int8x16_t a, simde_int8x16_t b, const int n)
     #if defined(SIMDE_RISCV_V_NATIVE)
       a_.sv128 = __riscv_vslidedown_vx_i8m1(a_.sv128, n, 16);
       r_.sv128 = __riscv_vslideup_vx_i8m1(a_.sv128, b_.sv128, 16-n, 16);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vor_v(__lsx_vbsll_v(a_.m128i, 16 - n), __lsx_vbsrl_v(b_.m128i, n));
     #else
       const size_t n_ = HEDLEY_STATIC_CAST(size_t, n);
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
@@ -858,6 +860,8 @@ simde_vextq_u8(simde_uint8x16_t a, simde_uint8x16_t b, const int n)
     #if defined(SIMDE_RISCV_V_NATIVE)
       a_.sv128 = __riscv_vslidedown_vx_u8m1(a_.sv128, n, 16);
       r_.sv128 = __riscv_vslideup_vx_u8m1(a_.sv128, b_.sv128, 16-n, 16);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vor_v(__lsx_vbsll_v(a_.m128i, 16 - n), __lsx_vbsrl_v(b_.m128i, n));
     #else
       const size_t n_ = HEDLEY_STATIC_CAST(size_t, n);
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {

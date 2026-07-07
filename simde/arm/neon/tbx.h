@@ -57,6 +57,17 @@ simde_vtbx1_u8(simde_uint8x8_t a, simde_uint8x8_t b, simde_uint8x8_t c) {
       __m128i r128 = _mm_shuffle_epi8(b128, c128);
       r128 =  _mm_blendv_epi8(r128, a128, c128);
       r_.m64 = _mm_movepi64_pi64(r128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      __m128i idx128 = (__m128i) c_.lsx64;
+      __m128i mask = __lsx_vslt_bu(__lsx_vreplgr2vr_b(7), idx128);
+      idx128 = __lsx_vor_v(idx128, mask);
+      __m128i b128 = simde_uint8x16_to_private(simde_vcombine_u8(b, b)).m128i;
+      __m128i res128 = __lsx_vshuf_b(b128, b128, idx128);
+      int64_t res_scalar = __lsx_vpickve2gr_d(res128, 0);
+      simde_memcpy(&r_.values, &res_scalar, 8);
+      for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
+        if (c_.values[i] >= 8) r_.values[i] = a_.values[i];
+      }
     #elif defined(SIMDE_RISCV_V_NATIVE)
       vbool8_t mask = __riscv_vmsgeu_vx_u8m1_b8 (c_.sv64, 8, 16);
       r_.sv64 = __riscv_vrgather_vv_u8m1(b_.sv64 , c_.sv64 , 8);

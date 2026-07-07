@@ -154,6 +154,8 @@ simde_vrndq_f32(simde_float32x4_t a) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128 = _mm_round_ps(a_.m128, _MM_FROUND_TO_ZERO);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = __lsx_vfrintrz_s(a_.m128);
     #elif defined(SIMDE_X86_SVML_NATIVE) && defined(SIMDE_X86_SSE_NATIVE)
       r_.m128 = _mm_trunc_ps(a_.m128);
     #else
@@ -185,6 +187,8 @@ simde_vrndq_f64(simde_float64x2_t a) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128d = _mm_round_pd(a_.m128d, _MM_FROUND_TO_ZERO);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128d = __lsx_vfrintrz_d(a_.m128d);
     #elif defined(SIMDE_X86_SVML_NATIVE) && defined(SIMDE_X86_SSE_NATIVE)
       r_.m128d = _mm_trunc_pd(a_.m128d);
     #else

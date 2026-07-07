@@ -213,6 +213,8 @@ simde_vmaxnmq_f32(simde_float32x4_t a, simde_float32x4_t b) {
       #else
         r_.m128 = _mm_max_ps(a_.m128, b_.m128);
       #endif
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE) && defined(SIMDE_FAST_NANS)
+      r_.m128 = __lsx_vfmax_s(a_.m128, b_.m128);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE) && defined(SIMDE_FAST_NANS)
       r_.v128 = wasm_f32x4_max(a_.v128, b_.v128);
     #else
