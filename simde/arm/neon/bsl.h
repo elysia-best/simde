@@ -370,7 +370,9 @@ simde_vbslq_f16(simde_uint16x8_t a, simde_float16x8_t b, simde_float16x8_t c) {
       b_ = simde_uint16x8_to_private(simde_vreinterpretq_u16_f16(b)),
       c_ = simde_uint16x8_to_private(simde_vreinterpretq_u16_f16(c));
 
-    #if defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
+    #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = c_.values ^ ((b_.values ^ c_.values) & a_.values);
     #else
       SIMDE_VECTORIZE
@@ -404,6 +406,8 @@ simde_vbslq_f32(simde_uint32x4_t a, simde_float32x4_t b, simde_float32x4_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi32(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -440,6 +444,8 @@ simde_vbslq_f64(simde_uint64x2_t a, simde_float64x2_t b, simde_float64x2_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi64(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -475,6 +481,8 @@ simde_vbslq_s8(simde_uint8x16_t a, simde_int8x16_t b, simde_int8x16_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi32(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -510,6 +518,8 @@ simde_vbslq_s16(simde_uint16x8_t a, simde_int16x8_t b, simde_int16x8_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi32(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -545,6 +555,8 @@ simde_vbslq_s32(simde_uint32x4_t a, simde_int32x4_t b, simde_int32x4_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi32(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -592,6 +604,8 @@ simde_vbslq_s64(simde_uint64x2_t a, simde_int64x2_t b, simde_int64x2_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi32(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -627,6 +641,8 @@ simde_vbslq_u8(simde_uint8x16_t a, simde_uint8x16_t b, simde_uint8x16_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi32(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -662,6 +678,8 @@ simde_vbslq_u16(simde_uint16x8_t a, simde_uint16x8_t b, simde_uint16x8_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi32(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -697,6 +715,8 @@ simde_vbslq_u32(simde_uint32x4_t a, simde_uint32x4_t b, simde_uint32x4_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi32(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -739,6 +759,8 @@ simde_vbslq_u64(simde_uint64x2_t a, simde_uint64x2_t b, simde_uint64x2_t c) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_v128_bitselect(b_.v128, c_.v128, a_.v128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vbitsel_v(c_.m128i, b_.m128i, a_.m128i);
     #elif defined(SIMDE_X86_AVX512VL_NATIVE)
       r_.m128i = _mm_ternarylogic_epi32(a_.m128i, b_.m128i, c_.m128i, 0xca);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)

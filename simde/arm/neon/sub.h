@@ -442,6 +442,8 @@ simde_vsubq_f32(simde_float32x4_t a, simde_float32x4_t b) {
 
     #if defined(SIMDE_X86_SSE_NATIVE)
       r_.m128 = _mm_sub_ps(a_.m128, b_.m128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = __lsx_vfsub_s(a_.m128, b_.m128);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_f32x4_sub(a_.v128, b_.v128);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -476,6 +478,8 @@ simde_vsubq_f64(simde_float64x2_t a, simde_float64x2_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128d = _mm_sub_pd(a_.m128d, b_.m128d);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128d = __lsx_vfsub_d(a_.m128d, b_.m128d);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_f64x2_sub(a_.v128, b_.v128);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -510,6 +514,8 @@ simde_vsubq_s8(simde_int8x16_t a, simde_int8x16_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_sub_epi8(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsub_b(a_.m128i, b_.m128i);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i8x16_sub(a_.v128, b_.v128);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -544,6 +550,8 @@ simde_vsubq_s16(simde_int16x8_t a, simde_int16x8_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_sub_epi16(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsub_h(a_.m128i, b_.m128i);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i16x8_sub(a_.v128, b_.v128);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -578,6 +586,8 @@ simde_vsubq_s32(simde_int32x4_t a, simde_int32x4_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_sub_epi32(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsub_w(a_.m128i, b_.m128i);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i32x4_sub(a_.v128, b_.v128);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -612,6 +622,8 @@ simde_vsubq_s64(simde_int64x2_t a, simde_int64x2_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_sub_epi64(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsub_d(a_.m128i, b_.m128i);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i64x2_sub(a_.v128, b_.v128);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
@@ -644,7 +656,9 @@ simde_vsubq_u8(simde_uint8x16_t a, simde_uint8x16_t b) {
       a_ = simde_uint8x16_to_private(a),
       b_ = simde_uint8x16_to_private(b);
 
-    #if defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsub_b(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = a_.values - b_.values;
     #else
       SIMDE_VECTORIZE
@@ -674,7 +688,9 @@ simde_vsubq_u16(simde_uint16x8_t a, simde_uint16x8_t b) {
       a_ = simde_uint16x8_to_private(a),
       b_ = simde_uint16x8_to_private(b);
 
-    #if defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsub_h(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = a_.values - b_.values;
     #else
       SIMDE_VECTORIZE
@@ -704,7 +720,9 @@ simde_vsubq_u32(simde_uint32x4_t a, simde_uint32x4_t b) {
       a_ = simde_uint32x4_to_private(a),
       b_ = simde_uint32x4_to_private(b);
 
-    #if defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsub_w(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = a_.values - b_.values;
     #else
       SIMDE_VECTORIZE
@@ -734,7 +752,9 @@ simde_vsubq_u64(simde_uint64x2_t a, simde_uint64x2_t b) {
       a_ = simde_uint64x2_to_private(a),
       b_ = simde_uint64x2_to_private(b);
 
-    #if defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
+    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsub_d(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = a_.values - b_.values;
     #else
       SIMDE_VECTORIZE
