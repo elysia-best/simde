@@ -531,7 +531,7 @@ typedef union {
   #endif
 
   #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
-    v2u64 lsx128;
+    __m128i lsx128;
   #endif
 } simde_poly64x2_private;
 
