@@ -267,7 +267,7 @@ simde_vget_low_u8(simde_uint8x16_t a) {
     #if defined(SIMDE_X86_SSE2_NATIVE) && defined(SIMDE_X86_MMX_NATIVE)
       r_.m64 = _mm_movepi64_pi64(a_.m128i);
     #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
-      r_.lsx64 = (v8u8)a_.m128i;
+      r_.lsx64 = (v16u8)a_.m128i;
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv64 = a_.sv128;
     #else
@@ -301,7 +301,7 @@ simde_vget_low_u16(simde_uint16x8_t a) {
     #if defined(SIMDE_X86_SSE2_NATIVE) && defined(SIMDE_X86_MMX_NATIVE)
       r_.m64 = _mm_movepi64_pi64(a_.m128i);
     #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
-      r_.lsx64 = (v4u16)a_.m128i;
+      r_.lsx64 = (v8u16)a_.m128i;
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv64 = a_.sv128;
     #else
