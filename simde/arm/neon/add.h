@@ -901,15 +901,10 @@ simde_vaddq_p8(simde_poly8x16_t a, simde_poly8x16_t b) {
       a_ = simde_poly8x16_to_private(a),
       b_ = simde_poly8x16_to_private(b);
 
-    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
-      r_.lsx64 = __lsx_vxor_v(a_.lsx64, b_.lsx64);
-    #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
         r_.values[i] = b_.values[i] ^ ((0 ^ a_.values[i]) & 0xFF);
       }
-    #endif
-
     return simde_poly8x16_from_private(r_);
   #endif
 }
@@ -930,15 +925,10 @@ simde_vaddq_p16(simde_poly16x8_t a, simde_poly16x8_t b) {
       a_ = simde_poly16x8_to_private(a),
       b_ = simde_poly16x8_to_private(b);
 
-    #if defined(SIMDE_LOONGARCH_LSX_NATIVE)
-      r_.lsx64 = __lsx_vxor_v(a_.lsx64, b_.lsx64);
-    #else
       SIMDE_VECTORIZE
       for (size_t i = 0 ; i < (sizeof(r_.values) / sizeof(r_.values[0])) ; i++) {
         r_.values[i] = b_.values[i] ^ ((0 ^ a_.values[i]) & 0xFFFF);
       }
-    #endif
-
     return simde_poly16x8_from_private(r_);
   #endif
 }
