@@ -350,6 +350,8 @@ simde_vuzp1q_f32(simde_float32x4_t a, simde_float32x4_t b) {
       r_.v128 = wasm_i32x4_shuffle(a_.v128, b_.v128, 0, 2, 4, 6);
     #elif defined(SIMDE_X86_SSE_NATIVE)
       r_.m128 = _mm_shuffle_ps(a_.m128, b_.m128, 0x88);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = (__m128) __lsx_vpickev_w((__m128i) b_.m128, (__m128i) a_.m128);
     #elif defined(SIMDE_SHUFFLE_VECTOR_)
       r_.values = SIMDE_SHUFFLE_VECTOR_(32, 16, a_.values, b_.values, 0, 2, 4, 6);
     #else
@@ -385,6 +387,8 @@ simde_vuzp1q_f64(simde_float64x2_t a, simde_float64x2_t b) {
       r_.v128 = wasm_i64x2_shuffle(a_.v128, b_.v128, 0, 2);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128d = _mm_castps_pd(_mm_movelh_ps(_mm_castpd_ps(a_.m128d), _mm_castpd_ps(b_.m128d)));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128d = (__m128d) __lsx_vpickev_d((__m128i) b_.m128d, (__m128i) a_.m128d);
     #elif defined(SIMDE_SHUFFLE_VECTOR_)
       r_.values = SIMDE_SHUFFLE_VECTOR_(64, 16, a_.values, b_.values, 0, 2);
     #else
@@ -421,6 +425,8 @@ simde_vuzp1q_s8(simde_int8x16_t a, simde_int8x16_t b) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i8x16_shuffle(a_.v128, b_.v128, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vpickev_b(b_.m128i, a_.m128i);
     #elif defined(SIMDE_SHUFFLE_VECTOR_)
       r_.values = SIMDE_SHUFFLE_VECTOR_(8, 16, a_.values, b_.values, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30);
     #else
@@ -457,6 +463,8 @@ simde_vuzp1q_s16(simde_int16x8_t a, simde_int16x8_t b) {
 
     #if defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i16x8_shuffle(a_.v128, b_.v128, 0, 2, 4, 6, 8, 10, 12, 14);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vpickev_h(b_.m128i, a_.m128i);
     #elif defined(SIMDE_SHUFFLE_VECTOR_)
       r_.values = SIMDE_SHUFFLE_VECTOR_(16, 16, a_.values, b_.values, 0, 2, 4, 6, 8, 10, 12, 14);
     #else
@@ -495,6 +503,8 @@ simde_vuzp1q_s32(simde_int32x4_t a, simde_int32x4_t b) {
       r_.v128 = wasm_i32x4_shuffle(a_.v128, b_.v128, 0, 2, 4, 6);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_castps_si128(_mm_shuffle_ps(_mm_castsi128_ps(a_.m128i), _mm_castsi128_ps(b_.m128i), 0x88));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vpickev_w(b_.m128i, a_.m128i);
     #elif defined(SIMDE_SHUFFLE_VECTOR_)
       r_.values = SIMDE_SHUFFLE_VECTOR_(32, 16, a_.values, b_.values, 0, 2, 4, 6);
     #else

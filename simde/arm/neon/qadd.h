@@ -419,6 +419,8 @@ simde_vqaddq_s8(simde_int8x16_t a, simde_int8x16_t b) {
       r_.v128 = wasm_i8x16_add_sat(a_.v128, b_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_adds_epi8(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsadd_b(a_.m128i, b_.m128i);
     #elif defined(SIMDE_VECTOR_SCALAR)
       uint8_t au SIMDE_VECTOR(16) = HEDLEY_REINTERPRET_CAST(__typeof__(au), a_.values);
       uint8_t bu SIMDE_VECTOR(16) = HEDLEY_REINTERPRET_CAST(__typeof__(bu), b_.values);
@@ -462,6 +464,8 @@ simde_vqaddq_s16(simde_int16x8_t a, simde_int16x8_t b) {
       r_.v128 = wasm_i16x8_add_sat(a_.v128, b_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_adds_epi16(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsadd_h(a_.m128i, b_.m128i);
     #elif defined(SIMDE_VECTOR_SCALAR)
       uint16_t au SIMDE_VECTOR(16) = HEDLEY_REINTERPRET_CAST(__typeof__(au), a_.values);
       uint16_t bu SIMDE_VECTOR(16) = HEDLEY_REINTERPRET_CAST(__typeof__(bu), b_.values);
@@ -652,6 +656,8 @@ simde_vqaddq_u8(simde_uint8x16_t a, simde_uint8x16_t b) {
       r_.v128 = wasm_u8x16_add_sat(a_.v128, b_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_adds_epu8(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsadd_bu(a_.m128i, b_.m128i);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT)
       r_.values = a_.values + b_.values;
       r_.values |= HEDLEY_REINTERPRET_CAST(__typeof__(r_.values), r_.values < a_.values);
@@ -689,6 +695,8 @@ simde_vqaddq_u16(simde_uint16x8_t a, simde_uint16x8_t b) {
       r_.v128 = wasm_u16x8_add_sat(a_.v128, b_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_adds_epu16(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vsadd_hu(a_.m128i, b_.m128i);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT)
       r_.values = a_.values + b_.values;
       r_.values |= HEDLEY_REINTERPRET_CAST(__typeof__(r_.values), r_.values < a_.values);

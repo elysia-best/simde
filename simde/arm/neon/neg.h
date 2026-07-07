@@ -286,6 +286,8 @@ simde_vnegq_f32(simde_float32x4_t a) {
       r_.v128 = wasm_f32x4_neg(a_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128 = _mm_castsi128_ps(_mm_xor_si128(_mm_set1_epi32(HEDLEY_STATIC_CAST(int32_t, UINT32_C(1) << 31)), _mm_castps_si128(a_.m128)));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128 = __lsx_vfsub_s((__m128) __lsx_vreplgr2vr_w(0), a_.m128);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = -a_.values;
     #else
@@ -319,6 +321,8 @@ simde_vnegq_f64(simde_float64x2_t a) {
       r_.v128 = wasm_f64x2_neg(a_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128d = _mm_castsi128_pd(_mm_xor_si128(_mm_set1_epi64x(HEDLEY_STATIC_CAST(int64_t, UINT64_C(1) << 63)), _mm_castpd_si128(a_.m128d)));
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128d = __lsx_vfsub_d((__m128d) __lsx_vreplgr2vr_d(0), a_.m128d);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = -a_.values;
     #else
@@ -352,6 +356,8 @@ simde_vnegq_s8(simde_int8x16_t a) {
       r_.v128 = wasm_i8x16_neg(a_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_sub_epi8(_mm_setzero_si128(), a_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vneg_b(a_.m128i);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = -a_.values;
     #else
@@ -385,6 +391,8 @@ simde_vnegq_s16(simde_int16x8_t a) {
       r_.v128 = wasm_i16x8_neg(a_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_sub_epi16(_mm_setzero_si128(), a_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vneg_h(a_.m128i);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = -a_.values;
     #else
@@ -418,6 +426,8 @@ simde_vnegq_s32(simde_int32x4_t a) {
       r_.v128 = wasm_i32x4_neg(a_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_sub_epi32(_mm_setzero_si128(), a_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vneg_w(a_.m128i);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = -a_.values;
     #else
@@ -451,6 +461,8 @@ simde_vnegq_s64(simde_int64x2_t a) {
       r_.v128 = wasm_i64x2_neg(a_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_sub_epi64(_mm_setzero_si128(), a_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vneg_d(a_.m128i);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_OPS)
       r_.values = -a_.values;
     #else

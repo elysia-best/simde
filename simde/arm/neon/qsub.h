@@ -407,6 +407,8 @@ simde_vqsubq_s8(simde_int8x16_t a, simde_int8x16_t b) {
       r_.v128 = wasm_i8x16_sub_sat(a_.v128, b_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_subs_epi8(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vssub_b(a_.m128i, b_.m128i);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vssub_vv_i8m1(a_.sv128 , b_.sv128 , 16);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_SCALAR)
@@ -447,6 +449,8 @@ simde_vqsubq_s16(simde_int16x8_t a, simde_int16x8_t b) {
       r_.v128 = wasm_i16x8_sub_sat(a_.v128, b_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_subs_epi16(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vssub_h(a_.m128i, b_.m128i);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vssub_vv_i16m1(a_.sv128 , b_.sv128 , 8);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_SCALAR)
@@ -574,6 +578,8 @@ simde_vqsubq_u8(simde_uint8x16_t a, simde_uint8x16_t b) {
       r_.v128 = wasm_u8x16_sub_sat(a_.v128, b_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_subs_epu8(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vssub_bu(a_.m128i, b_.m128i);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vssubu_vv_u8m1(a_.sv128 , b_.sv128 , 16);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_SCALAR)
@@ -611,6 +617,8 @@ simde_vqsubq_u16(simde_uint16x8_t a, simde_uint16x8_t b) {
       r_.v128 = wasm_u16x8_sub_sat(a_.v128, b_.v128);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_subs_epu16(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vssub_hu(a_.m128i, b_.m128i);
     #elif defined(SIMDE_RISCV_V_NATIVE)
       r_.sv128 = __riscv_vssubu_vv_u16m1(a_.sv128 , b_.sv128 , 8);
     #elif defined(SIMDE_VECTOR_SUBSCRIPT_SCALAR)

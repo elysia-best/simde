@@ -459,6 +459,8 @@ simde_vmaxq_f32(simde_float32x4_t a, simde_float32x4_t b) {
 
     #if defined(SIMDE_X86_SSE_NATIVE) && defined(SIMDE_FAST_NANS)
       r_.m128 = _mm_max_ps(a_.m128, b_.m128);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE) && defined(SIMDE_FAST_NANS)
+      r_.m128 = __lsx_vfmax_s(a_.m128, b_.m128);
     #elif defined(SIMDE_X86_SSE_NATIVE)
       __m128 m = _mm_or_ps(_mm_cmpneq_ps(a_.m128, a_.m128), _mm_cmpgt_ps(a_.m128, b_.m128));
       #if defined(SIMDE_X86_SSE4_1_NATIVE)
@@ -517,6 +519,8 @@ simde_vmaxq_f64(simde_float64x2_t a, simde_float64x2_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE) && defined(SIMDE_FAST_NANS)
       r_.m128d = _mm_max_pd(a_.m128d, b_.m128d);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE) && defined(SIMDE_FAST_NANS)
+      r_.m128d = __lsx_vfmax_d(a_.m128d, b_.m128d);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       __m128d m = _mm_or_pd(_mm_cmpneq_pd(a_.m128d, a_.m128d), _mm_cmpgt_pd(a_.m128d, b_.m128d));
       #if defined(SIMDE_X86_SSE4_1_NATIVE)
@@ -578,6 +582,8 @@ simde_vmaxq_s8(simde_int8x16_t a, simde_int8x16_t b) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128i = _mm_max_epi8(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmax_b(a_.m128i, b_.m128i);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       __m128i m = _mm_cmpgt_epi8(a_.m128i, b_.m128i);
       r_.m128i = _mm_or_si128(_mm_and_si128(m, a_.m128i), _mm_andnot_si128(m, b_.m128i));
@@ -621,6 +627,8 @@ simde_vmaxq_s16(simde_int16x8_t a, simde_int16x8_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_max_epi16(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmax_h(a_.m128i, b_.m128i);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i16x8_max(a_.v128, b_.v128);
     #endif
@@ -661,6 +669,8 @@ simde_vmaxq_s32(simde_int32x4_t a, simde_int32x4_t b) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128i = _mm_max_epi32(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmax_w(a_.m128i, b_.m128i);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_i32x4_max(a_.v128, b_.v128);
     #endif
@@ -689,6 +699,15 @@ simde_int64x2_t
 simde_x_vmaxq_s64(simde_int64x2_t a, simde_int64x2_t b) {
   #if defined(SIMDE_POWER_ALTIVEC_P8_NATIVE) || defined(SIMDE_ZARCH_ZVECTOR_13_NATIVE)
     return vec_max(a, b);
+  #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    simde_int64x2_private
+      r_,
+      a_ = simde_int64x2_to_private(a),
+      b_ = simde_int64x2_to_private(b);
+
+    r_.m128i = __lsx_vmax_d(a_.m128i, b_.m128i);
+
+    return simde_int64x2_from_private(r_);
   #elif defined(SIMDE_RISCV_V_NATIVE)
     simde_int64x2_private
       r_,
@@ -720,6 +739,8 @@ simde_vmaxq_u8(simde_uint8x16_t a, simde_uint8x16_t b) {
 
     #if defined(SIMDE_X86_SSE2_NATIVE)
       r_.m128i = _mm_max_epu8(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmax_bu(a_.m128i, b_.m128i);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_u8x16_max(a_.v128, b_.v128);
     #endif
@@ -760,6 +781,8 @@ simde_vmaxq_u16(simde_uint16x8_t a, simde_uint16x8_t b) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128i = _mm_max_epu16(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmax_hu(a_.m128i, b_.m128i);
     #elif defined(SIMDE_X86_SSE2_NATIVE)
       /* https://github.com/simd-everywhere/simde/issues/855#issuecomment-881656284 */
       r_.m128i = _mm_add_epi16(b_.m128i, _mm_subs_epu16(a_.m128i, b_.m128i));
@@ -803,6 +826,8 @@ simde_vmaxq_u32(simde_uint32x4_t a, simde_uint32x4_t b) {
 
     #if defined(SIMDE_X86_SSE4_1_NATIVE)
       r_.m128i = _mm_max_epu32(a_.m128i, b_.m128i);
+    #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+      r_.m128i = __lsx_vmax_wu(a_.m128i, b_.m128i);
     #elif defined(SIMDE_WASM_SIMD128_NATIVE)
       r_.v128 = wasm_u32x4_max(a_.v128, b_.v128);
     #endif
@@ -831,6 +856,15 @@ simde_uint64x2_t
 simde_x_vmaxq_u64(simde_uint64x2_t a, simde_uint64x2_t b) {
   #if defined(SIMDE_POWER_ALTIVEC_P8_NATIVE) || defined(SIMDE_ZARCH_ZVECTOR_13_NATIVE)
     return vec_max(a, b);
+  #elif defined(SIMDE_LOONGARCH_LSX_NATIVE)
+    simde_uint64x2_private
+      r_,
+      a_ = simde_uint64x2_to_private(a),
+      b_ = simde_uint64x2_to_private(b);
+
+    r_.m128i = __lsx_vmax_du(a_.m128i, b_.m128i);
+
+    return simde_uint64x2_from_private(r_);
   #elif defined(SIMDE_RISCV_V_NATIVE)
     simde_uint64x2_private
       r_,
